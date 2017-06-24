@@ -14,6 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('about', function () {
+    return view('welcome');
+});
 
 // Route::get('/student/create', 'StudentsController@create')->name('student.create');
 // Route::post('/student', 'StudentsController@store');
