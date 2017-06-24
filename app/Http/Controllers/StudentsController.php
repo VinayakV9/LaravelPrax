@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Students;
+use \Session;
 
 class StudentsController extends Controller
 {
@@ -13,6 +14,9 @@ class StudentsController extends Controller
 	 */
 	public function create()
 	{
+		if(Session::has('name')) {
+			Session::forget('name');
+		}
 		return view('student.create');
 	}
 
@@ -26,6 +30,7 @@ class StudentsController extends Controller
 		$request_data = array_except($request->all(),['_token','submit']);
 		
 		$student = Students::storeStudentData($request_data);
+		Session::put('name', $request_data['name']);
 
 		return redirect()->route('student.show', $student->id);
 	}
@@ -49,5 +54,10 @@ class StudentsController extends Controller
 		$student = Students::getStudentData($id);
 
 		return view('student.detail', compact('student'));
+	}
+
+	public function sessiontest(Request $request){
+		$name = Session::get('name');
+		return view('about', compact('name'));
 	}
 }
